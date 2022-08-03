@@ -1,0 +1,28 @@
+// 页面基本样式
+
+// 项目准备
+// 1.1 清除默认样式
+// npm install normalize.css --save
+// 去main.js 引入这个重置样式
+// 1.2 设置项目的基础样式  设置rem
+html {
+    font-size: 100px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 0.12rem;
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+
+    text-decoration: none;
+}
