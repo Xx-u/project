@@ -15,11 +15,13 @@
             area-placeholder="选择省 / 市 / 区"
             show-postal
             show-set-default
+            show-delete
             :address-info="list"
             :is-saving="false"
             :is-deleting="false"
             :area-columns-placeholder="['请选择', '请选择', '请选择']"
             @save="onSave"
+            @delete="delAddress(route.query.key)"
           />
         </div>
       </div>
@@ -31,9 +33,9 @@
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 let store = useStore()
-import { NavBar, AddressEdit, Area, Toast } from 'vant';
+import { Toast, Dialog } from 'vant';
 import { toast } from '../../Utils/index.js'
-import { get, post, put } from '../../Utils/request.js'
+import { get, post, put, del } from '../../Utils/request.js'
 import { areaList } from '@vant/area-data';
 import { useRoute, useRouter } from 'vue-router'
 let route = useRoute()
@@ -89,6 +91,26 @@ const onSave = async (data) => {
   })
   router.push('/address')
 };
+
+// 删除选中
+const delAddress = (val) => {
+  Dialog.confirm({
+    title: '小xu提示',
+    theme: 'round-button',
+    message:
+      '您是否确认删除地址?',
+  })
+    .then(() => {
+      del(`/address/${val}`).then(res => {
+        Toast({
+          message: '删除成功',
+          position: 'top',
+        })
+        store.commit("changeRouterType", "back")
+        router.push('/address')
+      })
+    }).catch(() => { });
+}
 
 </script>
 

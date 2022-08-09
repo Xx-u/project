@@ -6,20 +6,17 @@
           title="我的收货地址"
           left-arrow
           @click-left="onClickLeft"
-          right-text="删除"
-          @click-right="onClickRight"
         />
       </div>
       <div class="main">
         <div class="list">
           <div class="edit">
             <van-address-list
-              v-model="chosenAddressId"
               :list="list"
-              @select="select"
               default-tag-text="默认"
               @add="onAdd"
               @edit="onEdit"
+              switchable
             />
           </div>
         </div>
@@ -31,13 +28,11 @@
 <script setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-import { get, del } from '../../Utils/request.js'
-import { Toast, Dialog } from 'vant';
+import { get } from '../../Utils/request.js'
 import { useRouter } from 'vue-router'
 import { toast } from '../../Utils/index.js'
 let router = useRouter()
 let store = useStore()
-let chosenAddressId = ref(null)
 let list = ref([])
 
 // get请求
@@ -55,15 +50,6 @@ async function getEdit () {
     }
     list.value.push(obj)
   });
-  //   默认选中
-  let arr = list.value.find(ele => ele.isDefault)
-  if (arr != undefined) {
-    chosenAddressId.value = arr.id
-  }
-}
-// 绑定单选框
-const select = (data) => {
-  chosenAddressId.value = data.id
 }
 
 // 返回
@@ -73,31 +59,7 @@ const onClickLeft = () => {
   //   history.back()
 
 }
-// 删除选中
-const onClickRight = () => {
-  if (!list.value.length) {
-    Toast({
-      message: '请新建地址',
-      position: 'top',
-    })
-  } else {
-    Dialog.confirm({
-      title: '小xu提示',
-      theme: 'round-button',
-      message:
-        '您是否确认删除地址?',
-    })
-      .then(() => {
-        del(`/address/${chosenAddressId.value}`).then(res => {
-          Toast({
-            message: '删除成功',
-            position: 'top',
-          })
-          getEdit()
-        })
-      }).catch(() => { });
-  }
-}
+
 // 新建
 const onAdd = () => {
   toast()
@@ -137,5 +99,8 @@ const onEdit = (item) => {
       }
     }
   }
+}
+::v-deep .van-radio__icon {
+  display: none !important;
 }
 </style>

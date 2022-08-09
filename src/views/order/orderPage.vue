@@ -15,14 +15,30 @@
           <h3>收货地址</h3>
 
           <p>
-            {{ site.area_name + site.desc }}
+            {{ site.address }}
             <van-badge class="badge" :content="title" />
           </p>
           <p>
-            {{ site.name }} <span>{{ site.phone }}</span>
+            {{ site.name }} <span>{{ site.tel }}</span>
           </p>
         </div>
         <van-icon class="edit-icon" name="edit" @click="onEdit" />
+      </div>
+
+      <div class="actionsheet">
+        <van-action-sheet v-model:show="show" title="选择收货地址">
+          <div class="content">
+            <van-address-list
+              v-model="value"
+              :list="list"
+              default-tag-text="默认"
+              @select="optSelect"
+              switchable
+              @add="onAdd"
+              @edit="goToEdit"
+            />
+          </div>
+        </van-action-sheet>
       </div>
 
       <div class="order">
@@ -128,8 +144,11 @@ import { useRoute, useRouter } from 'vue-router'
 let route = useRoute()
 let router = useRouter()
 let store = useStore()
+let list = ref([])
 let site = ref([])
 let title = ref(null)
+let show = ref(false)
+let value = ref('')
 
 let shopList = ref(store.state.shoporder.cradList)
 
@@ -137,23 +156,53 @@ const change = (name) => {
   store.state.shoporder.orderpageChecked = name
 }
 
-// 请求默认地址
-toast()
-addressGet()
-async function addressGet () {
-  let res = await get('/defalutAddress')
-  site.value = res.result
-  if (res.result.default_set == 1) {
+// get请求
+getEdit()
+async function getEdit () {
+  list.value = []
+  let res = await get('/address')
+  res.result.forEach(ele => {
+    let obj = {
+      id: ele.id,
+      name: ele.name,
+      tel: ele.phone,
+      address: ele.area_name + '  ' + ele.desc,
+      isDefault: ele.default_set === '1' ? true : false,
+    }
+    list.value.push(obj)
+  });
+  site.value = list.value.find(ele => ele.isDefault)
+  value.value = site.value.id
+  title.value = '默认'
+}
+// 切换选中地址
+const optSelect = (val) => {
+  site.value = val
+  show.value = false
+  if (site.value.isDefault) {
     title.value = '默认'
+  } else {
+    title.value = ''
   }
 }
 
+
 // 编辑地址
 const onEdit = () => {
+  show.value = true
+}
+// 新建
+const onAdd = () => {
   toast()
   store.commit("changeRouterType", "push")
-  router.push('/address')
-}
+  router.push('/newedit')
+};
+// 编辑
+const goToEdit = (item) => {
+  toast()
+  store.commit("changeRouterType", "push")
+  router.push(`/edit?key=${item.id}`)
+};
 
 // 总价
 const price = computed(() => {
@@ -299,6 +348,14 @@ const onSubmit = async () => {
     justify-content: center;
     color: #666;
     font-size: 0.25rem;
+  }
+}
+.actionsheet {
+  .content {
+    padding: 16px 16px 160px;
+    .van-address-list {
+      padding: 0 !important;
+    }
   }
 }
 .order {
