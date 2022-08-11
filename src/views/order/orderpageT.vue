@@ -242,8 +242,6 @@ const onSubmit = async () => {
   toast()
   let shop = store.state.shoporder.cradList
   let address = site.value
-  console.log(shop);
-  console.log(address.id);
   let shopId = [shop.id]
   let goodsInfo = [{ id: shop.id, num: 1 }]
   let body = {
@@ -253,7 +251,8 @@ const onSubmit = async () => {
     shoppingCartIds: shopId
   }
   let res = await post('/order', body)
-  console.log(res);
+  store.commit("changeRouterType", "back")
+  router.push('/order')
 }
 
 </script>

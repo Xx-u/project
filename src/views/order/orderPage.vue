@@ -279,7 +279,6 @@ const onSubmit = async () => {
     shoppingCartIds: shopId
   }
   let res = await post('/order', body)
-  //   console.log(res);
   store.commit("changeRouterType", "back")
   router.push('/order')
 }
