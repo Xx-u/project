@@ -41,11 +41,9 @@
         <!-- 服务 -->
         <div class="options">
           <!-- 1 -->
-          <div class="service">
+          <div class="service" @click="goMoney">
             <div class="logo">
-              <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-qianbao"></use>
-              </svg>
+              <van-icon name="gold-coin-o" size="0.25rem" />
               <span>我的钱包</span>
             </div>
             <div class="img">
@@ -57,12 +55,9 @@
           <!-- 2 -->
           <div class="service" @click="goToAddress">
             <div class="logo">
-              <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-dizhi"></use>
-              </svg>
+              <van-icon name="location-o" size="0.25rem" />
               <span>我的地址</span>
             </div>
-
             <div class="img">
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-xiangyoujiantou"></use>
@@ -70,11 +65,9 @@
             </div>
           </div>
           <!-- 3 -->
-          <div class="service">
+          <div class="service" @click="goShop">
             <div class="logo">
-              <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-kefu"></use>
-              </svg>
+              <van-icon name="manager-o" size="0.25rem" />
               <span>客服与帮助</span>
             </div>
             <div class="img">
@@ -86,19 +79,65 @@
         </div>
       </div>
     </div>
+
+    <div class="wrapper">
+      <NearBy :goodsData="goodsData" @go="handler" title="猜你喜欢" />
+    </div>
+
+    <van-action-sheet v-model:show="showShow" title="请添加客服wx咨询">
+      <div class="actionImg">
+        <img src="../../assets/image/wxShop.jpg" alt="" />
+      </div>
+    </van-action-sheet>
   </div>
 </template>
 
 <script setup>
+import NearBy from '../../components/goodsBy.vue'
+import { get } from '../../Utils/request.js';
+import { toast } from '../../Utils/index.js'
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex'
-import { ref } from '@vue/reactivity';
+import { reactive, ref } from 'vue';
+import { Toast } from 'vant';
 let router = useRouter();
 let store = useStore()
+let showShow = ref(false)
 let headImg = ref(store.state.user.header_img)
 let userName = ref(store.state.user.userName)
 let userID = ref(store.state.user.userID)
+let goodsData = ref([])
+let dataParams = reactive({ project_id: 240, page: 4, limit: 6 })
 
+// 请求商品
+const getDatas = async () => {
+  toast()
+  let res = await get('/goods', dataParams)
+  if (!res.result.rows.length) {
+    Toast('没有更多商品了');
+  }
+  goodsData.value = goodsData.value.concat(res.result.rows)
+}
+getDatas()
+// 触底加载
+const handler = () => {
+  dataParams.page++
+  getDatas()
+}
+
+const goMoney = () => {
+  Toast({
+    message: '未开通',
+    position: 'top',
+  });
+}
+
+// 客服
+const goShop = () => {
+  showShow.value = !showShow.value
+}
+
+// 编辑地址
 const goToAddress = () => {
   store.commit("changeRouterType", "push")
   router.push('/address')
@@ -113,9 +152,6 @@ const goToEditorMy = () => {
 </script>
 <style lang="scss" scoped>
 .body {
-  position: fixed;
-  width: 100%;
-  height: 100%;
   background-color: #f6f6f6;
   .homepage {
     padding-top: 0.16rem;
@@ -136,7 +172,7 @@ const goToEditorMy = () => {
     height: 0.5rem;
     transform: scale(12) translate(28%, -14%);
     border-radius: 50%;
-    background-image: linear-gradient(239deg, #3a6ff3 0%, #50c7fb 100%);
+    background-color: #f5eef5;
   }
 }
 
@@ -246,10 +282,6 @@ const goToEditorMy = () => {
       .logo {
         display: flex;
         align-self: center;
-        .icon {
-          width: 0.22rem;
-          height: 0.22rem;
-        }
         span {
           padding-left: 0.12rem;
           text-align: center;
@@ -266,5 +298,17 @@ const goToEditorMy = () => {
       }
     }
   }
+}
+.actionImg {
+  display: flex;
+  justify-content: center;
+  img {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+.wrapper {
+  margin-top: 00.3rem;
+  margin-bottom: 00.5rem;
 }
 </style>

@@ -38,7 +38,7 @@
 
       <footer>
         <van-action-bar>
-          <van-action-bar-icon icon="chat-o" text="客服" />
+          <van-action-bar-icon icon="chat-o" text="客服" @click="goShop" />
           <van-action-bar-icon
             icon="cart-o"
             text="购物车"
@@ -46,7 +46,7 @@
             :badge-props="cartMsgObj"
             @click="goToOeder"
           />
-          <van-action-bar-icon icon="shop-o" text="店铺" />
+          <van-action-bar-icon icon="shop-o" text="店铺" @click="goShop" />
           <van-action-bar-button
             type="danger"
             text="加入购物车"
@@ -59,6 +59,12 @@
           />
         </van-action-bar>
       </footer>
+
+      <van-action-sheet v-model:show="showShow" title="请添加客服wx咨询">
+        <div class="actionImg">
+          <img src="../../assets/image/wxShop.jpg" alt="" />
+        </div>
+      </van-action-sheet>
     </div>
   </div>
 </template>
@@ -78,6 +84,7 @@ let goodList = ref([])
 let cartMsg = ref(0)
 let cartMsgObj = ref({ "show-zero": cartMsg.value === 0 ? false : true })
 let text = ref('')
+let showShow = ref(false)
 getShop()
 async function getShop () {
   toast()
@@ -88,6 +95,10 @@ async function getShop () {
   let res = await get(`/goods/${route.query.key}`)
   goodList.value = res.result
   text.value = goodList.value.rich_text
+}
+// 客服
+const goShop = () => {
+  showShow.value = !showShow.value
 }
 // 加入购物车
 let flag = 0
@@ -252,6 +263,14 @@ header {
   }
   .tetxHTML {
     padding-bottom: 00.5rem;
+  }
+}
+.actionImg {
+  display: flex;
+  justify-content: center;
+  img {
+    width: 2rem;
+    height: 2rem;
   }
 }
 </style>

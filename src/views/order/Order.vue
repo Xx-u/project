@@ -6,7 +6,13 @@
       </div>
       <div class="main">
         <div class="label">
-          <van-tabs v-model="active" swipeable @click-tab="clickOrder">
+          <van-tabs
+            v-model:active="active"
+            swipeable
+            @change="clickOrder"
+            lazy-render
+            sticky
+          >
             <van-tab v-for="item in title" :key="item.id" :name="item.id">
               <template #title>
                 <p>{{ item.span }}</p>
@@ -33,7 +39,7 @@
                   <span>总价: ￥{{ Oritem.total_price }}</span>
                   <div class="button">
                     <van-button round size="small" type="default"
-                      >追加评价</van-button
+                      >编辑订单</van-button
                     >
                     <van-button
                       round
@@ -44,10 +50,11 @@
                     >
                     <van-button
                       round
+                      color="linear-gradient(to right, #ff6034, #ee0a24)"
                       size="small"
                       type="default"
                       @click="pustGoods(Oritem.id)"
-                      >加入购物车</van-button
+                      >去支付</van-button
                     >
                   </div>
                 </div>
@@ -98,12 +105,8 @@ async function orderGet (node) {
 // -1：已删除，0：已过期，1:已下单，2:已支付，3:已发货, 4:退货中，5:退款中，6:已完成，7：已取消
 const clickOrder = (data) => {
   toast()
-  active.value = data.name
-  if (data.name === 8) {
-    orderGet()
-  } else {
-    orderGet(data.name)
-  }
+  active.value = data
+  orderGet(data == 8 ? '' : data)
 }
 
 // 删除订单
@@ -121,26 +124,17 @@ const delOrder = async (id) => {
       })
     }).catch(() => { });
 }
-// 加入购物车
+// 去支付
 const pustGoods = (id) => {
-  toast()
-  let arr = orderList.value.find(ele => ele.id === id)
-  JSON.parse(arr.goods_info).forEach(ele => {
-    let body = {
-      goods_id: ele.id,
-      num: ele.num,
-      project_id: 240
-    }
-    post('/shoppingCart/', body).then((res) => {
-      console.log(res);
-    })
-  });
+  // router.push()
 }
 // 点击跳转商品详情页
 const checkCard = (id) => {
   store.commit("changeRouterType", "push")
   router.push(`/shoppage?key=${id}`)
 }
+
+
 
 </script>
 
@@ -152,18 +146,14 @@ const checkCard = (id) => {
   background-color: #f6f6f6;
 }
 .top {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 0.5rem;
-  z-index: 99;
+  height: 0.46rem;
 }
 .main {
   margin: 0 auto;
-  padding-top: 0.5rem;
+  //   padding-top: 0.46rem;
   padding-bottom: 00.5rem;
-  min-height: calc(100vh - 1rem);
+  min-height: calc(100vh - 0.96rem);
   .label {
     height: 100%;
   }

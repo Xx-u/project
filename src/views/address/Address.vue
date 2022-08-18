@@ -88,8 +88,8 @@ const onEdit = (item) => {
 }
 .main {
   margin: 0 auto;
-  min-height: 100vh;
-  padding-top: 00.5rem;
+  min-height: calc(100vh - 0.46rem);
+  padding-top: 00.46rem;
 
   .list {
     .edit {

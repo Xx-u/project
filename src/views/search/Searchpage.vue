@@ -47,6 +47,11 @@
         >
       </div>
 
+      <div class="empty" v-show="emptyShow">
+        <van-empty image="search" description="暂无搜索商品" />
+        <h3>推荐商品</h3>
+      </div>
+
       <div class="goodslist" v-show="flag">
         <div v-for="item in goodslist" :key="item.id">
           <van-card
@@ -82,6 +87,7 @@ let show = ref(true)
 let flag = ref(false)
 let shopList = ref([])
 let goodslist = ref([])
+let emptyShow = ref(false)
 // 获取商品分类
 get('/classify/classifyGoods', { project_id: 240 }).then(res => {
   shopList.value = res.result
@@ -90,6 +96,12 @@ const goodsGet = (val) => {
   searchVal.value = val
   get('/goodsSearch', { project_id: 240, name: val }).then(res => {
     console.log(res);
+    if (!res.result.rows.length) {
+      emptyShow.value = !emptyShow.value
+      get('/goods', { project_id: 240, page: 3, limit: 10 }).then(res => {
+        goodslist.value = res.result.rows
+      })
+    }
     goodslist.value = res.result.rows
   })
 }
@@ -138,6 +150,12 @@ const checklist = (id, val) => {
     store.dispatch('search/changoldlist', val)
   }
   get('/goods', { project_id: 240, page: 1, limit: 10, classify_id: id }).then(res => {
+    if (!res.result.rows.length) {
+      emptyShow.value = !emptyShow.value
+      get('/goods', { project_id: 240, page: 3, limit: 10 }).then(res => {
+        goodslist.value = res.result.rows
+      })
+    }
     goodslist.value = res.result.rows
   })
   //   goodsGet(val)
@@ -206,6 +224,13 @@ const checkgoods = (id) => {
       button {
         margin-top: 00.15rem;
         margin-left: 00.15rem;
+      }
+    }
+    .empty {
+      h3 {
+        padding-left: 00.16rem;
+        font-size: 0.18rem;
+        color: #333;
       }
     }
     .goodslist {

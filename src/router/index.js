@@ -8,13 +8,17 @@ const routes = [
         path: '/',
         name: 'home',
         component: Home,
+        meta: {
+            title: '多快好省,购物上xu商城'
+        },
     },
     {
         path: '/shopping',
         name: 'shopping',
         component: () => import('../views/shopping/Shopping.vue'),
         meta: {
-            auth: true
+            auth: true,
+            title: 'xu商城-用户购物车'
         }
     },
     {
@@ -22,20 +26,25 @@ const routes = [
         name: 'shoppage',
         component: () => import('../views/shopping/ShopPage.vue'),
         meta: {
-            auth: true
+            auth: true,
+            title: 'xu商城-商品详情'
         }
     },
     {
         path: '/goodspage',
         name: 'goodspage',
         component: () => import('../views/shopping/GoodsPage.vue'),
+        meta: {
+            title: 'xu商城-商品列表详情'
+        }
     },
     {
         path: '/order',
         name: 'order',
         component: () => import('../views/order/Order.vue'),
         meta: {
-            auth: true
+            auth: true,
+            title: 'xu商城-用户订单'
         }
     },
     {
@@ -43,7 +52,8 @@ const routes = [
         name: 'orderpage',
         component: () => import('../views/order/orderPage.vue'),
         meta: {
-            auth: true
+            auth: true,
+            title: 'xu商城-提交订单'
         }
     },
     {
@@ -53,7 +63,8 @@ const routes = [
             return import('../views/order/orderpageT.vue')
         },
         meta: {
-            auth: true
+            auth: true,
+            title: 'xu商城-提交订单'
         }
     },
     {
@@ -63,7 +74,8 @@ const routes = [
             return import('../views/my/My.vue')
         },
         meta: {
-            auth: true
+            auth: true,
+            title: 'xu商城-用户'
         }
     },
     {
@@ -73,7 +85,8 @@ const routes = [
             return import('../views/my/EditorUser.vue')
         },
         meta: {
-            auth: true
+            auth: true,
+            title: 'xu商城-用户信息编辑'
         }
     },
     {
@@ -81,6 +94,9 @@ const routes = [
         name: 'login',
         component: function () {
             return import('../views/Login.vue')
+        },
+        meta: {
+            title: 'xu商城-登录注册'
         },
     },
     {
@@ -92,27 +108,34 @@ const routes = [
         path: '/address',
         name: 'address',
         component: () => import('../views/address/Address.vue'),
+        meta: {
+            title: '用户编辑'
+        },
     },
     {
         path: '/newedit',
         name: 'newedit',
         component: () => import('../views/address/newEdit.vue'),
+        meta: {
+            title: '地址新建'
+        },
     },
     {
         path: '/edit',
         name: 'edit',
         component: () => import('../views/address/Edit.vue'),
+        meta: {
+            title: '地址编辑'
+        },
     },
     {
         path: '/searchpage',
         name: 'searchpage',
         component: () => import('../views/search/Searchpage.vue'),
+        meta: {
+            title: 'xu商城-搜索'
+        },
     },
-    {
-        path: '/createorder',
-        name: 'createorder',
-        component: () => import('../views/createorder/Createorder.vue'),
-    }
 ]
 
 const router = createRouter({
@@ -120,8 +143,8 @@ const router = createRouter({
     history: createWebHistory(),//history
     routes
 })
-
 router.beforeEach((to, from, next) => {
+    document.title = to.meta.title
     if (to.meta.auth) {
         let isLogin = sessionStorage.getItem('isLogin')
         // console.log(isLogin);

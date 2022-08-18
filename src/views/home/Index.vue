@@ -28,7 +28,11 @@
       </div>
 
       <div class="wrapper">
-        <NearBy :goodsData="goodsData" @go="handler" />
+        <NearBy :goodsData="goodsData" @go="handler" title="热门商品" />
+      </div>
+
+      <div class="upgrade" v-show="upgradeShow" @click="goTop">
+        <van-icon name="back-top" color="#C1C2C8" size="0.2rem" />
       </div>
     </div>
   </div>
@@ -45,13 +49,16 @@ import Sort, { useMsgEffact } from './components/Sort.vue'
 import { toast } from '../../Utils/index.js'
 import { reactive, ref } from 'vue';
 import { get } from '../../Utils/request.js';
+import { delayPrint } from '../../Utils/index.js'
 let { title, showToast } = useMsgEffact()
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import { Toast } from 'vant';
 const router = useRouter()
 const store = useStore()
 let bannerList = ref([])
 let goodsData = ref([])
+let upgradeShow = ref(false)
 let userProjectId = reactive({ project_id: 240 })
 let dataParams = reactive({ project_id: 240, page: 1, limit: 6 })
 let sortTitle = ref([])
@@ -65,6 +72,9 @@ showToast(title)
 const getDatas = async () => {
   toast()
   let res = await get('/goods', dataParams)
+  if (!res.result.rows.length) {
+    Toast('没有更多商品了');
+  }
   goodsData.value = goodsData.value.concat(res.result.rows)
 }
 getDatas()
@@ -82,6 +92,15 @@ const handler = () => {
   getDatas()
 }
 
+// 监听滚动事件
+document.addEventListener('scroll', delayPrint(100, function () {
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement
+  upgradeShow.value = scrollTop > 400 ? true : false
+}))
+
+const goTop = () => {
+  window.scrollTo(0, 0);
+}
 
 // 点击进入商品分类
 const goodsSortCheck = (index) => {
@@ -114,7 +133,7 @@ const goToSearchpage = () => {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   z-index: 999;
 }
 ::v-deep .van-search__content--round {
@@ -163,5 +182,15 @@ const goToSearchpage = () => {
     display: flex;
     justify-content: center;
   }
+}
+
+.upgrade {
+  position: fixed;
+  right: 00.16rem;
+  bottom: 0.8rem;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid #c1c2c8;
+  padding: 0.07rem;
 }
 </style>

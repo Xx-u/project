@@ -19,9 +19,9 @@
         </van-sidebar>
         <div class="left">
           <van-card
-            v-for="item in goodsList"
+            v-for="(item, index) in goodsList"
             :key="item.id"
-            tag="新品"
+            :tag="index % 2 == 1 ? '新品' : ''"
             :price="item.price - item.sale_price"
             :desc="item.desc"
             :title="item.name"

@@ -45,7 +45,7 @@
           <div class="checked">
             <van-checkbox
               v-model="item.checked"
-              checked-color="#FE6201"
+              checked-color="#ee0a24"
             ></van-checkbox>
           </div>
         </div>
@@ -55,7 +55,7 @@
             button-text="结算"
             @submit="goToOrderpage"
           >
-            <van-checkbox v-model="checkAll" checked-color="#FE6201"
+            <van-checkbox v-model="checkAll" checked-color="#ee0a24"
               >全选</van-checkbox
             >
           </van-submit-bar>
@@ -167,9 +167,10 @@ const delClick = (id) => {
       '是否删除?',
   })
     .then(() => {
-      del(`/shoppingCart/${id}`)
-      toast('删除成功!')
-      card()
+      del(`/shoppingCart/${id}`).then(res => {
+        toast('删除成功!')
+        card()
+      })
     }).catch(() => { });
 }
 // 结算
