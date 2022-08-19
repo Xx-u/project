@@ -1,10 +1,6 @@
 <template>
   <!-- 人类认证模块 -->
   <div class="behavior">
-    <!-- <div>
-      <button @click="reset">重置</button>
-      <button>关闭</button>
-    </div> -->
     <van-overlay :show="show" />
     <div v-show="show" class="captcha" id="captcha"></div>
   </div>
@@ -22,16 +18,13 @@ let { page } = defineProps({
   show: Boolean,
   page: String
 })
-// const reset = () => {
-//   captcha.reset()
-// }
 onMounted(() => {
   captcha = sliderCaptcha({
     // 这里的id和上面结构相对应
     id: 'captcha',
     onSuccess () {
       // 成功
-      Dialog({ message: '登录成功' }).then(() => {
+      Dialog.alert({ message: '登录成功' }).then(() => {
         router.push(page)
       })
     },

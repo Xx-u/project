@@ -97,10 +97,12 @@ const goodsGet = (val) => {
   get('/goodsSearch', { project_id: 240, name: val }).then(res => {
     console.log(res);
     if (!res.result.rows.length) {
-      emptyShow.value = !emptyShow.value
+      emptyShow.value = true
       get('/goods', { project_id: 240, page: 3, limit: 10 }).then(res => {
         goodslist.value = res.result.rows
       })
+    } else {
+      emptyShow.value = false
     }
     goodslist.value = res.result.rows
   })

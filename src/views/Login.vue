@@ -30,7 +30,7 @@
           <span>立即注册</span>
         </router-link>
         <p></p>
-        <span>忘记密码</span>
+        <span @click="empty">忘记密码</span>
       </div>
     </div>
     <SliderCaptcha :show="show" :page="page" />
@@ -41,7 +41,7 @@
 import { useRoute } from 'vue-router';
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex';
-import { Dialog } from 'vant';
+import { Dialog, Toast } from 'vant';
 const store = useStore();
 import { phoneRegular, passwordRegular, checkAll } from '../Utils/regular.js'
 import SliderCaptcha from '../components/SliderCaptcha.vue'
@@ -81,6 +81,13 @@ const goToMy = async () => {
   }
 }
 
+// 忘记密码
+const empty = () => {
+  Toast({
+    message: '未开通',
+    position: 'top',
+  });
+}
 
 // 眼睛 显示密码
 const eyeClick = () => {

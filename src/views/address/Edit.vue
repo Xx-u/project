@@ -96,7 +96,6 @@ const onSave = async (data) => {
 const delAddress = (val) => {
   Dialog.confirm({
     title: '小xu提示',
-    theme: 'round-button',
     message:
       '您是否确认删除地址?',
   })

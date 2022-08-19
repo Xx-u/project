@@ -68,6 +68,17 @@ const routes = [
         }
     },
     {
+        path: '/paymentOrder',
+        name: 'PaymentOrder',
+        component: function () {
+            return import('../views/order/PaymentOrder.vue')
+        },
+        meta: {
+            auth: true,
+            title: 'xu商城-支付订单'
+        }
+    },
+    {
         path: '/my',
         name: 'my',
         component: function () {

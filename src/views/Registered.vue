@@ -2,9 +2,7 @@
   <div class="body">
     <div class="homepage">
       <div class="head">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-touxiang-"></use>
-        </svg>
+        <img src="../assets/image/编组@3x.png" alt="" />
       </div>
 
       <input
@@ -123,7 +121,7 @@ const eyeClick = () => {
     width: 0.66rem;
     height: 0.66rem;
     border-radius: 50%;
-    .icon {
+    img {
       width: 0.66rem;
       height: 0.66rem;
     }

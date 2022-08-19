@@ -1,9 +1,7 @@
 <template>
   <div class="body">
     <div class="mypage">
-      <div class="banner">
-        <div class="yuan"></div>
-      </div>
+      <div class="banner"></div>
       <div class="center">
         <!-- 资料 -->
         <div class="personal">
@@ -164,26 +162,20 @@ const goToEditorMy = () => {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 2.5rem;
   overflow: hidden;
-  .yuan {
-    width: 0.5rem;
-    height: 0.5rem;
-    transform: scale(12) translate(28%, -14%);
-    border-radius: 50%;
-    background-color: #f5eef5;
-  }
+  background-color: #f5eef5;
 }
 
 .center {
   margin: 0 auto;
   margin-top: 1.08rem;
-  width: 3.39rem;
+  margin-left: 00.2rem;
+  margin-right: 00.2rem;
   z-index: 3;
   .personal {
     position: relative;
-    width: 3.39rem;
     height: 2.03rem;
     background: #ffffff;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.08);
@@ -202,7 +194,8 @@ const goToEditorMy = () => {
       justify-content: center;
       position: absolute;
       top: -0.47rem;
-      left: 1.23rem;
+      left: 50%;
+      transform: translate(-50%, 0);
       width: 0.94rem;
       height: 0.94rem;
       border-radius: 50%;
@@ -240,7 +233,6 @@ const goToEditorMy = () => {
       text-align: center;
     }
     .span {
-      width: 3.39rem;
       height: 0.01rem;
       background-color: #f1f1f1;
     }
@@ -264,21 +256,16 @@ const goToEditorMy = () => {
     }
   }
   .options {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: space-around;
-    width: 3.39rem;
-    height: 1.46rem;
     background: #ffffff;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.08);
     border-radius: 8px;
-    // padding: 0.16rem 0.12rem 0.17rem 0.16rem;
+    padding-bottom: 00.2rem;
     .service {
       display: flex;
       justify-content: space-between;
-      width: 3.06rem;
       padding-left: 00.16rem;
-      padding-right: 00.12rem;
+      padding-right: 00.16rem;
+      padding-top: 00.2rem;
       .logo {
         display: flex;
         align-self: center;

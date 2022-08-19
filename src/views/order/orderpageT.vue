@@ -99,27 +99,6 @@
         </div>
       </div>
 
-      <div class="pay">
-        <van-cell value="支付" />
-        <van-radio-group v-model="checked">
-          <van-cell title="支付宝" icon="after-sale">
-            <div class="check">
-              <van-radio name="1" checked-color="#FE6201"></van-radio>
-            </div>
-          </van-cell>
-          <van-cell title="微信" icon="after-sale">
-            <div class="check">
-              <van-radio name="2" checked-color="#FE6201"></van-radio>
-            </div>
-          </van-cell>
-          <van-cell title="银行卡" icon="after-sale">
-            <div class="check">
-              <van-radio name="3" checked-color="#FE6201"></van-radio>
-            </div>
-          </van-cell>
-        </van-radio-group>
-      </div>
-
       <div class="submit">
         <van-submit-bar
           :price="shopList.price * 100"
@@ -228,7 +207,6 @@ const onExchange = (code) => {
 const onClickLeft = () => {
   Dialog.confirm({
     title: '小xu提示',
-    theme: 'round-button',
     message:
       '您是否确认取消订单?',
   })
@@ -250,9 +228,11 @@ const onSubmit = async () => {
     project_id: 240,
     shoppingCartIds: shopId
   }
-  let res = await post('/order', body)
-  store.commit("changeRouterType", "back")
-  router.push('/order')
+  post('/order', body).then(res => {
+    let id = res.data.result.id
+    store.commit("changeRouterType", "push")
+    router.push(`/paymentOrder?key=${id}`)
+  })
 }
 
 </script>
@@ -264,11 +244,10 @@ const onSubmit = async () => {
   background-color: #f6f6f6;
 }
 .orderpage {
-  padding-top: 00.16rem;
-  padding-left: 00.16rem;
-  padding-right: 00.16rem;
-  padding-bottom: 000.7rem;
+  padding: 0.16rem;
+  margin-bottom: 000.5rem;
   margin-top: 0.46rem;
+  min-height: calc(100vh - 1.3rem);
 }
 .top {
   width: 100%;
@@ -362,20 +341,5 @@ const onSubmit = async () => {
   border-radius: 00.15rem;
   background-color: #fff;
   box-shadow: rgb(0 0 0 / 25%) 0rem 0.05rem 0.15rem;
-}
-
-.pay {
-  width: 100%;
-  margin-top: 00.2rem;
-  border-radius: 00.15rem;
-  background-color: #fff;
-  box-shadow: rgb(0 0 0 / 25%) 0rem 0.05rem 0.15rem;
-  .van-cell {
-    position: relative;
-    .check {
-      position: absolute;
-      right: 0;
-    }
-  }
 }
 </style>

@@ -54,6 +54,7 @@
                       size="small"
                       type="default"
                       @click="pustGoods(Oritem.id)"
+                      v-show="Oritem.status == 1"
                       >去支付</van-button
                     >
                   </div>
@@ -113,7 +114,6 @@ const clickOrder = (data) => {
 const delOrder = async (id) => {
   Dialog.confirm({
     title: '小xu提示',
-    theme: 'round-button',
     message:
       '您是否确认删除订单?',
   })
@@ -126,7 +126,8 @@ const delOrder = async (id) => {
 }
 // 去支付
 const pustGoods = (id) => {
-  // router.push()
+  store.commit("changeRouterType", "push")
+  router.push(`/paymentOrder?key=${id}`)
 }
 // 点击跳转商品详情页
 const checkCard = (id) => {
@@ -151,8 +152,7 @@ const checkCard = (id) => {
 }
 .main {
   margin: 0 auto;
-  //   padding-top: 0.46rem;
-  padding-bottom: 00.5rem;
+  padding-bottom: 00.7rem;
   min-height: calc(100vh - 0.96rem);
   .label {
     height: 100%;

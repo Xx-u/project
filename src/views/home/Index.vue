@@ -165,9 +165,7 @@ const goToSearchpage = () => {
   align-content: space-between;
   margin: 0 auto;
   padding-top: 0.16rem;
-  padding-bottom: 0.16rem;
-  width: 100%;
-  height: 1.42rem;
+  padding-bottom: 0.12rem;
   border-radius: 00.15rem;
   background-color: #fff;
 }

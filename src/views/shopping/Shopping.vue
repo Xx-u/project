@@ -87,7 +87,7 @@ async function card () {
     ele.checked = true
   })
   goodsList.value = res.result
-  lenght.value = '我的购物车(' + goodsList.value.length + ')'
+  lenght.value = '购物车(' + goodsList.value.length + ')'
 }
 // 更新num
 const checkNum = (id, num) => {
@@ -162,7 +162,6 @@ const onClickRight = async () => {
 const delClick = (id) => {
   Dialog.confirm({
     title: '小xu提示',
-    theme: 'round-button',
     message:
       '是否删除?',
   })
