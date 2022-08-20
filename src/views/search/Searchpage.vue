@@ -185,10 +185,10 @@ const checkgoods = (id) => {
     margin-top: 0.53rem;
     padding-left: 0.16rem;
     padding-right: 0.16rem;
-    min-height: calc(100vh - 0.5rem);
+    min-height: calc(100vh - 0.54rem);
     .top {
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
       align-items: center;
       position: fixed;
       top: 0;
@@ -197,10 +197,14 @@ const checkgoods = (id) => {
       z-index: 999;
       background-color: #fff;
 
+      .left {
+        margin-left: 000.12rem;
+      }
       .input {
-        width: 3rem;
+        width: 90%;
       }
       .right {
+        margin-right: 00.16rem;
         width: 0.4rem;
         height: 0.3rem;
         color: #fff;

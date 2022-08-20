@@ -94,7 +94,7 @@ const handler = () => {
 
 // 监听滚动事件
 document.addEventListener('scroll', delayPrint(100, function () {
-  const { scrollTop, scrollHeight, clientHeight } = document.documentElement
+  const { scrollTop } = document.documentElement
   upgradeShow.value = scrollTop > 400 ? true : false
 }))
 

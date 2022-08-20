@@ -44,8 +44,9 @@ onMounted(() => {
 .behavior {
   .captcha {
     position: absolute !important;
-    top: 35%;
-    left: 14%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 99;
   }
 }

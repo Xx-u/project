@@ -89,9 +89,7 @@ const geTel = (tel) => {
 
 // 获取订单单条信息
 const getShop = () => {
-  console.log(route.query.key);
   get(`/order/${route.query.key}`).then(res => {
-    console.log(res.result);
     address.value = res.result.s_address
     userPhone.value = geTel(address.value.phone)
     orderGoodList.value = res.result.goods_info
@@ -112,7 +110,7 @@ const onClickLeft = () => {
   Dialog.confirm({
     title: '小xu提示',
     message:
-      '您是否取消支付?',
+      '是否放弃支付?',
   })
     .then(() => {
       store.commit("changeRouterType", "back")
